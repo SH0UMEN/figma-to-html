@@ -1,0 +1,28 @@
+{
+  "name": "figma-to-html",
+  "version": "0.0.1",
+  "description": "Figma Node parser into HTML&CSS",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "tsx ./test/index.ts",
+    "build": "tsup"
+  },
+  "type": "module",
+  "author": "shoumen",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^1.7.7",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "lines-intersection": "^1.0.0"
+  }
+}

@@ -32,6 +32,9 @@ class BackgroundParser {
 				case PaintType.GradientLinear:
 					background += this.parseLinearGradient(paint.gradientStops, paint.gradientHandlePositions, size, paint.opacity) + ';';
 					break;
+				case PaintType.GradientAngular:
+					background += this.parseAngularGradient(paint.gradientStops, paint.gradientHandlePositions, size, paint.opacity) + ';';
+					break;
 				case PaintType.GradientRadial:
 					result += this.writeLayer(background, size);
 
@@ -153,6 +156,21 @@ class BackgroundParser {
 		}
 
 		return result + ')';
+	}
+
+	private static parseAngularGradient(stops: ColorStop[], positions: Vector[], size: Vector, opacity: number = 1) {
+		let angle = calculateAngleBetweenPoints(renormVector(positions[0], size), renormVector(positions[1], size));
+		angle = (angle)/Math.abs(angle) * (180 - Math.abs(angle));
+
+		let result = 'conic-gradient(from ' + roundTo(angle, 2) + 'deg at ' + roundTo(positions[0].x * 100, 2) + '% ' + roundTo(positions[0].y * 100, 2) + '%';
+
+		for(let i = 0; i < stops.length; i++) {
+			result += ', ' + PropertyParser.parseColor(stops[i].color, opacity) + ' ' + roundTo(stops[i].position * 100, 2) + '%';
+		}
+
+		result += ', ' + PropertyParser.parseColor(stops[0].color, opacity) + ' 100%)';
+
+		return result;
 	}
 
 	private static parseRadialGradient(stops: ColorStop[], positions: Vector[], size: Vector, opacity: number = 1) {
